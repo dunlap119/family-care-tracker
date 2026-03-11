@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<!-- saved from url=(0225)file:///Users/shereadunlap/Library/Application%20Support/Claude/local-agent-mode-sessions/8a2ee11e-9934-4ae9-9814-ae1d2d4eb63c/56759d82-8182-4972-9abe-e74ebb5948df/local_3e1a66fe-3c73-4b6f-82ec-1ced79ee9906/outputs/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Family Care Expense Tracker</title>
+<style>
+:root {
+  --navy: #1B2A4A;
+  --navy-light: #243556;
+  --soft-blue: #D6E4F0;
+  --accent: #4CAF50;
+  --accent-hover: #388E3C;
+  --orange: #FF9800;
+  --light-gray: #F7F8FA;
+  --border: #E0E4EA;
+  --text: #2C3E50;
+  --text-light: #7F8C9B;
+  --danger: #E74C3C;
+  --white: #FFFFFF;
+  --radius: 10px;
+  --shadow: 0 2px 12px rgba(27,42,74,0.08);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--light-gray); color: var(--text); min-height: 100vh;
+  display: flex; flex-direction: column;
+}
+
+/* ══════ NAV ══════ */
+nav {
+  background: var(--navy); color: white;
+  padding: 0 24px; display: flex; align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15); position: sticky; top:0; z-index:50;
+  height: 56px; flex-shrink: 0;
+}
+nav .brand { font-size:17px; font-weight:700; margin-right:32px; white-space:nowrap; }
+nav .tabs { display:flex; gap:4px; height:100%; }
+nav .tab {
+  padding: 0 18px; display:flex; align-items:center; gap:6px;
+  font-size:13px; font-weight:600; color:rgba(255,255,255,0.6);
+  cursor:pointer; border-bottom:3px solid transparent;
+  transition: all 0.2s; height:100%; text-decoration:none;
+}
+nav .tab:hover { color:rgba(255,255,255,0.9); background:rgba(255,255,255,0.05); }
+nav .tab.active { color:white; border-bottom-color:var(--accent); }
+nav .tab svg { width:16px; height:16px; fill:currentColor; opacity:0.8; }
+nav .spacer { flex:1; }
+.sync-status {
+  font-size:11px; padding:4px 12px; border-radius:12px; font-weight:600;
+  white-space:nowrap;
+}
+.sync-online  { background:#C8E6C9; color:#2E7D32; }
+.sync-offline { background:#FFCDD2; color:#C62828; }
+.sync-syncing { background:#FFF9C4; color:#F57F17; }
+
+/* ══════ PAGE CONTAINER ══════ */
+.page { display:none; flex:1; }
+.page.active { display:block; }
+.container { max-width:1000px; margin:0 auto; padding:24px 16px; }
+
+/* ══════ CARDS ══════ */
+.card {
+  background:var(--white); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:24px 28px; margin-bottom:20px;
+}
+.card-title {
+  font-size:15px; font-weight:700; color:var(--navy);
+  margin-bottom:16px; display:flex; align-items:center; gap:8px;
+}
+.card-title .icon {
+  width:28px; height:28px; background:var(--soft-blue);
+  border-radius:6px; display:flex; align-items:center; justify-content:center;
+  font-size:13px;
+}
+
+/* ══════ SETUP BANNER ══════ */
+.setup-banner {
+  background:#FFF3E0; border:2px solid var(--orange);
+  border-radius:var(--radius); padding:20px 24px; margin-bottom:20px;
+}
+.setup-banner h3 { color:#E65100; margin-bottom:6px; font-size:15px; }
+.setup-banner p { font-size:13px; color:#5D4037; line-height:1.5; }
+.setup-banner input {
+  width:100%; padding:10px 14px; border:1.5px solid var(--orange);
+  border-radius:8px; font-size:14px; font-family:monospace; margin-top:8px;
+}
+.setup-banner .btn-row { margin-top:10px; }
+.btn-save-url {
+  padding:8px 18px; border:none; border-radius:6px;
+  font-size:13px; font-weight:600; cursor:pointer;
+  background:var(--orange); color:white;
+}
+.btn-save-url:hover { background:#F57C00; }
+
+/* ══════ SUMMARY CARDS ══════ */
+.summary-grid {
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr));
+  gap:16px; margin-bottom:20px;
+}
+.stat-card {
+  background:var(--white); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:20px; text-align:center;
+  border-top:4px solid var(--navy);
+}
+.stat-card.green { border-top-color:var(--accent); }
+.stat-card.orange { border-top-color:var(--orange); }
+.stat-card.blue { border-top-color:#2196F3; }
+.stat-card .label {
+  font-size:11px; font-weight:600; text-transform:uppercase;
+  letter-spacing:0.5px; color:var(--text-light); margin-bottom:6px;
+}
+.stat-card .value { font-size:24px; font-weight:700; color:var(--navy); }
+.stat-card .sub { font-size:11px; color:var(--text-light); margin-top:4px; }
+
+/* ══════ SIBLING TABLE (Dashboard) ══════ */
+.sib-table { width:100%; border-collapse:collapse; font-size:13px; }
+.sib-table th {
+  background:var(--navy); color:white; padding:10px 14px;
+  text-align:left; font-size:11px; text-transform:uppercase;
+  letter-spacing:0.5px;
+}
+.sib-table td { padding:10px 14px; border-bottom:1px solid var(--border); }
+.sib-table tr:nth-child(even) td { background:var(--light-gray); }
+.sib-table tr:hover td { background:var(--soft-blue); }
+.bar-cell { width:180px; }
+.bar-bg {
+  background:#EEE; border-radius:4px; height:10px; position:relative; overflow:hidden;
+}
+.bar-fill {
+  height:100%; border-radius:4px; transition:width 0.4s;
+}
+.bar-green { background:var(--accent); }
+.bar-orange { background:var(--orange); }
+.bar-red { background:var(--danger); }
+
+.status-badge {
+  display:inline-block; padding:3px 10px; border-radius:12px;
+  font-size:11px; font-weight:600;
+}
+.status-owes { background:#FFCDD2; color:#C62828; }
+.status-over { background:#C8E6C9; color:#2E7D32; }
+.status-settled { background:#E0E0E0; color:#616161; }
+
+/* ══════ BUDGET PAGE ══════ */
+.budget-section-header {
+  background:var(--soft-blue); padding:8px 14px; font-weight:700;
+  font-size:12px; text-transform:uppercase; letter-spacing:0.5px;
+  color:var(--navy); border-radius:6px; margin-top:14px; margin-bottom:6px;
+}
+.budget-row {
+  display:flex; align-items:center; padding:8px 14px;
+  border-bottom:1px solid var(--border); gap:12px;
+}
+.budget-row:hover { background:var(--light-gray); }
+.budget-row .cat-name { flex:1; font-size:13px; }
+.budget-row input {
+  width:130px; padding:7px 10px; border:1.5px solid var(--border);
+  border-radius:6px; font-size:14px; text-align:right;
+  font-family:inherit; background:#FFFDE7;
+}
+.budget-row input:focus {
+  outline:none; border-color:var(--navy);
+  box-shadow:0 0 0 3px rgba(27,42,74,0.1);
+}
+.budget-row .actual { font-size:13px; color:var(--text-light); width:100px; text-align:right; }
+.budget-total-row {
+  display:flex; align-items:center; padding:12px 14px;
+  background:var(--navy); color:white; border-radius:6px;
+  margin-top:8px; font-weight:700; font-size:14px; gap:12px;
+}
+.budget-total-row .cat-name { flex:1; }
+.budget-total-row .amt { width:130px; text-align:right; }
+.budget-total-row .actual { width:100px; text-align:right; font-weight:400; font-size:13px; opacity:0.8; }
+
+/* ══════ FORM ══════ */
+.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.form-group { display:flex; flex-direction:column; }
+.form-group.full { grid-column:1/-1; }
+label {
+  font-size:11px; font-weight:600; color:var(--text-light);
+  text-transform:uppercase; letter-spacing:0.5px; margin-bottom:5px;
+}
+label .req { color:var(--danger); }
+input, select, textarea {
+  padding:9px 12px; border:1.5px solid var(--border); border-radius:8px;
+  font-size:14px; font-family:inherit; color:var(--text);
+  transition:border-color 0.2s, box-shadow 0.2s;
+}
+input:focus, select:focus, textarea:focus {
+  outline:none; border-color:var(--navy);
+  box-shadow:0 0 0 3px rgba(27,42,74,0.1);
+}
+input.error, select.error { border-color:var(--danger); box-shadow:0 0 0 3px rgba(231,76,60,0.1); }
+textarea { resize:vertical; min-height:56px; }
+
+.btn-row { display:flex; justify-content:flex-end; gap:10px; margin-top:16px; }
+.btn {
+  padding:9px 22px; border:none; border-radius:8px;
+  font-size:13px; font-weight:600; cursor:pointer; transition:all 0.2s;
+}
+.btn-primary { background:var(--accent); color:white; }
+.btn-primary:hover { background:var(--accent-hover); }
+.btn-primary:disabled { background:#A5D6A7; cursor:wait; }
+.btn-secondary { background:var(--light-gray); color:var(--text-light); }
+.btn-secondary:hover { background:var(--border); }
+
+/* ══════ TRANSACTION TABLE ══════ */
+.filter-row { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
+.filter-btn {
+  padding:4px 12px; border:1.5px solid var(--border); border-radius:16px;
+  background:var(--white); font-size:11px; font-weight:500;
+  cursor:pointer; transition:all 0.2s; color:var(--text-light);
+}
+.filter-btn.active, .filter-btn:hover {
+  border-color:var(--navy); background:var(--navy); color:white;
+}
+.table-wrap { overflow-x:auto; border-radius:8px; border:1px solid var(--border); }
+table.txn-table { width:100%; border-collapse:collapse; font-size:13px; }
+table.txn-table th {
+  background:var(--navy); color:white; padding:10px 14px;
+  text-align:left; font-weight:600; font-size:11px;
+  text-transform:uppercase; letter-spacing:0.5px; white-space:nowrap;
+}
+table.txn-table td { padding:9px 14px; border-bottom:1px solid var(--border); white-space:nowrap; }
+table.txn-table tr:nth-child(even) td { background:var(--light-gray); }
+table.txn-table tr:hover td { background:var(--soft-blue); }
+
+.badge {
+  display:inline-block; padding:3px 10px; border-radius:12px;
+  font-size:11px; font-weight:600;
+}
+.badge-housing   { background:#E3F2FD; color:#1565C0; }
+.badge-medical   { background:#FCE4EC; color:#C62828; }
+.badge-phone     { background:#E8F5E9; color:#2E7D32; }
+.badge-personal  { background:#FFF3E0; color:#E65100; }
+.badge-legal     { background:#F3E5F5; color:#6A1B9A; }
+.badge-transport { background:#E0F7FA; color:#00695C; }
+.badge-other     { background:#ECEFF1; color:#455A64; }
+
+.delete-btn {
+  background:none; border:none; color:var(--text-light);
+  cursor:pointer; font-size:15px; padding:2px 6px; border-radius:4px;
+}
+.delete-btn:hover { background:#FDEDEC; color:var(--danger); }
+
+.empty-state { text-align:center; padding:40px 20px; color:var(--text-light); }
+.empty-state .icon { font-size:32px; margin-bottom:6px; }
+
+.btn-export {
+  padding:5px 14px; border:1.5px solid var(--navy); border-radius:6px;
+  background:var(--white); color:var(--navy);
+  font-size:11px; font-weight:600; cursor:pointer;
+}
+.btn-export:hover { background:var(--navy); color:white; }
+
+.spinner {
+  display:inline-block; width:14px; height:14px;
+  border:2px solid rgba(255,255,255,0.3); border-top-color:white;
+  border-radius:50%; animation:spin 0.6s linear infinite;
+  vertical-align:middle; margin-right:6px;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* ══════ TOAST ══════ */
+.toast {
+  position:fixed; top:16px; right:16px;
+  background:var(--accent); color:white;
+  padding:12px 22px; border-radius:8px; font-weight:500; font-size:13px;
+  box-shadow:0 4px 16px rgba(0,0,0,0.15);
+  transform:translateX(120%); transition:transform 0.3s ease; z-index:100;
+}
+.toast.error { background:var(--danger); }
+.toast.show { transform:translateX(0); }
+
+/* ══════ RESPONSIVE ══════ */
+@media(max-width:640px) {
+  nav .brand { font-size:14px; margin-right:12px; }
+  nav .tab { padding:0 10px; font-size:12px; }
+  nav .tab span.tab-label { display:none; }
+  .form-grid { grid-template-columns:1fr; }
+  .card { padding:18px 16px; }
+  .summary-grid { grid-template-columns:1fr 1fr; }
+  .budget-row input { width:100px; }
+  .budget-row .actual { width:80px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════ NAVIGATION ══════ -->
+<nav>
+  <div class="brand">Family Care Tracker</div>
+  <div class="tabs">
+    <a class="tab active" data-page="dashboard" onclick="showPage(&#39;dashboard&#39;, this)">
+      <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"></path></svg>
+      <span class="tab-label">Dashboard</span>
+    </a>
+    <a class="tab" data-page="budget" onclick="showPage(&#39;budget&#39;, this)">
+      <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"></path></svg>
+      <span class="tab-label">Budget</span>
+    </a>
+    <a class="tab" data-page="transactions" onclick="showPage(&#39;transactions&#39;, this)">
+      <svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path></svg>
+      <span class="tab-label">Transactions</span>
+    </a>
+  </div>
+  <div class="spacer"></div>
+  <span class="sync-status sync-offline" id="syncStatus">Not connected</span>
+</nav>
+
+<!-- ════════════════════════════════════════════════════
+     PAGE 1: DASHBOARD
+     ════════════════════════════════════════════════════ -->
+<div class="page active" id="page-dashboard">
+<div class="container">
+
+  <!-- Setup Banner -->
+  <div class="setup-banner" id="setupBanner" style="display: block;">
+    <h3>One-time setup: Connect to Google Sheets</h3>
+    <p>Paste your Google Apps Script web app URL below to sync data across all family members' devices.</p>
+    <input type="url" id="apiUrlInput" placeholder="https://script.google.com/macros/s/ABC.../exec">
+    <div class="btn-row" style="justify-content:flex-start;">
+      <button class="btn-save-url" onclick="saveApiUrl()">Save &amp; Connect</button>
+    </div>
+  </div>
+
+  <!-- Summary Stats -->
+  <div class="summary-grid">
+    <div class="stat-card">
+      <div class="label">Monthly Budget</div>
+      <div class="value" id="dashBudget">$5,655.00</div>
+      <div class="sub">per month</div>
+    </div>
+    <div class="stat-card green">
+      <div class="label">Total Spent</div>
+      <div class="value" id="dashSpent">$0.00</div>
+      <div class="sub" id="dashSpentSub">this period</div>
+    </div>
+    <div class="stat-card orange">
+      <div class="label">Remaining</div>
+      <div class="value" id="dashRemaining">$5,655.00</div>
+      <div class="sub">of budget</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="label">Transactions</div>
+      <div class="value" id="dashTxnCount">0</div>
+      <div class="sub">total entries</div>
+    </div>
+  </div>
+
+  <!-- Sibling Breakdown -->
+  <div class="card">
+    <div class="card-title"><div class="icon">👥</div> Sibling Contributions</div>
+    <div id="sibSetup" style="margin-bottom:14px;">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
+        <span style="font-size:12px;font-weight:600;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;">Siblings:</span>
+        <div id="sibChips" style="display:flex;gap:6px;flex-wrap:wrap;">
+    <span style="display:inline-flex;align-items:center;gap:4px;background:var(--soft-blue);padding:3px 10px;border-radius:12px;font-size:12px;font-weight:500;">
+      Sibling 1 (30%)
+      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="editSiblingPct(0)" title="Edit %">✎</span>
+      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="removeSibling(0)" title="Remove">✕</span>
+    </span>
+  
+    <span style="display:inline-flex;align-items:center;gap:4px;background:var(--soft-blue);padding:3px 10px;border-radius:12px;font-size:12px;font-weight:500;">
+      Sibling 2 (25%)
+      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="editSiblingPct(1)" title="Edit %">✎</span>
+      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="removeSibling(1)" title="Remove">✕</span>
+    </span>
+  
+    <span style="display:inline-flex;align-items:center;gap:4px;background:var(--soft-blue);padding:3px 10px;border-radius:12px;font-size:12px;font-weight:500;">
+      Sibling 3 (25%)
+      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="editSiblingPct(2)" title="Edit %">✎</span>
+      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="removeSibling(2)" title="Remove">✕</span>
+    </span>
+  
+    <span style="display:inline-flex;align-items:center;gap:4px;background:var(--soft-blue);padding:3px 10px;border-radius:12px;font-size:12px;font-weight:500;">
+      Sibling 4 (20%)
+      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="editSiblingPct(3)" title="Edit %">✎</span>
+      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="removeSibling(3)" title="Remove">✕</span>
+    </span>
+  </div>
+        <button class="btn" style="padding:4px 12px;font-size:12px;background:var(--soft-blue);color:var(--navy);" onclick="addSiblingPrompt()">+ Add</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table class="sib-table">
+        <thead><tr>
+          <th>Sibling</th><th>Share</th><th>Owed</th><th>Paid</th><th>Progress</th><th>Status</th>
+        </tr></thead>
+        <tbody id="sibBody"><tr>
+      <td><strong>Sibling 1</strong></td>
+      <td>30%</td>
+      <td style="text-align:right;">$1,696.50</td>
+      <td style="text-align:right;">$0.00</td>
+      <td class="bar-cell"><div class="bar-bg"><div class="bar-fill bar-red" style="width:0%"></div></div></td>
+      <td><span class="status-badge status-owes">Owes $1,696.50</span></td>
+    </tr><tr>
+      <td><strong>Sibling 2</strong></td>
+      <td>25%</td>
+      <td style="text-align:right;">$1,413.75</td>
+      <td style="text-align:right;">$0.00</td>
+      <td class="bar-cell"><div class="bar-bg"><div class="bar-fill bar-red" style="width:0%"></div></div></td>
+      <td><span class="status-badge status-owes">Owes $1,413.75</span></td>
+    </tr><tr>
+      <td><strong>Sibling 3</strong></td>
+      <td>25%</td>
+      <td style="text-align:right;">$1,413.75</td>
+      <td style="text-align:right;">$0.00</td>
+      <td class="bar-cell"><div class="bar-bg"><div class="bar-fill bar-red" style="width:0%"></div></div></td>
+      <td><span class="status-badge status-owes">Owes $1,413.75</span></td>
+    </tr><tr>
+      <td><strong>Sibling 4</strong></td>
+      <td>20%</td>
+      <td style="text-align:right;">$1,131.00</td>
+      <td style="text-align:right;">$0.00</td>
+      <td class="bar-cell"><div class="bar-bg"><div class="bar-fill bar-red" style="width:0%"></div></div></td>
+      <td><span class="status-badge status-owes">Owes $1,131.00</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Spending by Category -->
+  <div class="card">
+    <div class="card-title"><div class="icon">📊</div> Spending by Category</div>
+    <div class="table-wrap">
+      <table class="sib-table">
+        <thead><tr><th>Category</th><th style="text-align:right;">Budgeted</th><th style="text-align:right;">Spent</th><th style="text-align:right;">Remaining</th></tr></thead>
+        <tbody id="catBody"><tr>
+      <td><span class="badge badge-housing">Assisted living monthly</span></td>
+      <td style="text-align:right;">$4,500.00</td>
+      <td style="text-align:right;">$0.00</td>
+      <td style="text-align:right;color:inherit;font-weight:400;">$4,500.00</td>
+    </tr><tr>
+      <td><span class="badge badge-medical">Medical</span></td>
+      <td style="text-align:right;">$600.00</td>
+      <td style="text-align:right;">$0.00</td>
+      <td style="text-align:right;color:inherit;font-weight:400;">$600.00</td>
+    </tr><tr>
+      <td><span class="badge badge-phone">Phone</span></td>
+      <td style="text-align:right;">$80.00</td>
+      <td style="text-align:right;">$0.00</td>
+      <td style="text-align:right;color:inherit;font-weight:400;">$80.00</td>
+    </tr><tr>
+      <td><span class="badge badge-personal">Personal &amp; Daily Living</span></td>
+      <td style="text-align:right;">$125.00</td>
+      <td style="text-align:right;">$0.00</td>
+      <td style="text-align:right;color:inherit;font-weight:400;">$125.00</td>
+    </tr><tr>
+      <td><span class="badge badge-legal">Legal</span></td>
+      <td style="text-align:right;">$0.00</td>
+      <td style="text-align:right;">$0.00</td>
+      <td style="text-align:right;color:inherit;font-weight:400;">$0.00</td>
+    </tr><tr>
+      <td><span class="badge badge-transport">Transportation</span></td>
+      <td style="text-align:right;">$150.00</td>
+      <td style="text-align:right;">$0.00</td>
+      <td style="text-align:right;color:inherit;font-weight:400;">$150.00</td>
+    </tr><tr>
+      <td><span class="badge badge-other">Other</span></td>
+      <td style="text-align:right;">$200.00</td>
+      <td style="text-align:right;">$0.00</td>
+      <td style="text-align:right;color:inherit;font-weight:400;">$200.00</td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     PAGE 2: BUDGET
+     ════════════════════════════════════════════════════ -->
+<div class="page" id="page-budget">
+<div class="container">
+  <div class="card">
+    <div class="card-title"><div class="icon">💰</div> Monthly Budget</div>
+    <p style="font-size:13px;color:var(--text-light);margin-bottom:16px;">
+      Set estimated monthly costs below. These feed into the Dashboard calculations.
+    </p>
+    <div id="budgetRows"><div class="budget-section-header">Housing &amp; Facility</div><div class="budget-row">
+        <div class="cat-name">Assisted living monthly fee</div>
+        <input type="number" min="0" step="1" value="4500" onchange="updateBudgetItem(&#39;Assisted living monthly&#39;, this.value)" onfocus="this.select()">
+        <div class="actual" id="actual-Assisted living monthly">$0 spent</div>
+      </div><div class="budget-row">
+        <div class="cat-name">Room upgrades / private room</div>
+        <input type="number" min="0" step="1" value="0" onchange="updateBudgetItem(&#39;room_upgrade&#39;, this.value)" onfocus="this.select()">
+        <div class="actual" id="actual-room_upgrade">$0 spent</div>
+      </div><div class="budget-row">
+        <div class="cat-name">Move-in / community fee (amortized)</div>
+        <input type="number" min="0" step="1" value="0" onchange="updateBudgetItem(&#39;movein_fee&#39;, this.value)" onfocus="this.select()">
+        <div class="actual" id="actual-movein_fee">$0 spent</div>
+      </div><div class="budget-section-header">Medical &amp; Care</div><div class="budget-row">
+        <div class="cat-name">Hospice co-pays / supplemental</div>
+        <input type="number" min="0" step="1" value="200" onchange="updateBudgetItem(&#39;Medical&#39;, this.value)" onfocus="this.select()">
+        <div class="actual" id="actual-Medical">$0 spent</div>
+      </div><div class="budget-row">
+        <div class="cat-name">Medications &amp; pharmacy</div>
+        <input type="number" min="0" step="1" value="300" onchange="updateBudgetItem(&#39;medications&#39;, this.value)" onfocus="this.select()">
+        <div class="actual" id="actual-medications">$0 spent</div>
+      </div><div class="budget-row">
+        <div class="cat-name">Medical equipment / supplies</div>
+        <input type="number" min="0" step="1" value="100" onchange="updateBudgetItem(&#39;equipment&#39;, this.value)" onfocus="this.select()">
+        <div class="actual" id="actual-equipment">$0 spent</div>
+      </div><div class="budget-row">
+        <div class="cat-name">In-home aide / extra care hours</div>
+        <input type="number" min="0" step="1" value="0" onchange="updateBudgetItem(&#39;aide&#39;, this.value)" onfocus="this.select()">
+        <div class="actual" id="actual-aide">$0 spent</div>
+      </div><div class="budget-section-header">Personal &amp; Daily Living</div><div class="budget-row">
+        <div class="cat-name">Clothing &amp; personal items</div>
+        <input type="number" min="0" step="1" value="75" onchange="updateBudgetItem(&#39;clothing&#39;, this.value)" onfocus="this.select()">
+        <div class="actual" id="actual-clothing">$0 spent</div>
+      </div><div class="budget-row">
+        <div class="cat-name">Toiletries &amp; grooming</div>
+        <input type="number" min="0" step="1" value="50" onchange="updateBudgetItem(&#39;toiletries&#39;, this.value)" onfocus="this.select()">
+        <div class="actual" id="actual-toiletries">$0 spent</div>
+      </div><div class="budget-row">
+        <div class="cat-name">Phone / TV / internet</div>
+        <input type="number" min="0" step="1" value="80" onchange="updateBudgetItem(&#39;Phone&#39;, this.value)" onfocus="this.select()">
+        <div class="actual" id="actual-Phone">$0 spent</div>
+      </div><div class="budget-section-header">Insurance &amp; Legal</div><div class="budget-row">
+        <div class="cat-name">Long-term care insurance</div>
+        <input type="number" min="0" step="1" value="0" onchange="updateBudgetItem(&#39;ltc_insurance&#39;, this.value)" onfocus="this.select()">
+        <div class="actual" id="actual-ltc_insurance">$0 spent</div>
+      </div><div class="budget-row">
+        <div class="cat-name">Supplemental health insurance</div>
+        <input type="number" min="0" step="1" value="0" onchange="updateBudgetItem(&#39;supp_insurance&#39;, this.value)" onfocus="this.select()">
+        <div class="actual" id="actual-supp_insurance">$0 spent</div>
+      </div><div class="budget-row">
+        <div class="cat-name">Legal / POA / estate fees (amortized)</div>
+        <input type="number" min="0" step="1" value="0" onchange="updateBudgetItem(&#39;Legal&#39;, this.value)" onfocus="this.select()">
+        <div class="actual" id="actual-Legal">$0 spent</div>
+      </div><div class="budget-section-header">Transportation &amp; Misc</div><div class="budget-row">
+        <div class="cat-name">Transportation to appointments</div>
+        <input type="number" min="0" step="1" value="100" onchange="updateBudgetItem(&#39;Transportation&#39;, this.value)" onfocus="this.select()">
+        <div class="actual" id="actual-Transportation">$0 spent</div>
+      </div><div class="budget-row">
+        <div class="cat-name">Meals / dining out with family</div>
+        <input type="number" min="0" step="1" value="50" onchange="updateBudgetItem(&#39;meals_out&#39;, this.value)" onfocus="this.select()">
+        <div class="actual" id="actual-meals_out">$0 spent</div>
+      </div><div class="budget-row">
+        <div class="cat-name">Miscellaneous / emergency fund</div>
+        <input type="number" min="0" step="1" value="200" onchange="updateBudgetItem(&#39;Other&#39;, this.value)" onfocus="this.select()">
+        <div class="actual" id="actual-Other">$0 spent</div>
+      </div></div>
+    <div class="budget-total-row">
+      <div class="cat-name">TOTAL MONTHLY</div>
+      <div class="amt" id="budgetTotal">$5,655.00</div>
+      <div class="actual" id="budgetTotalActual">$0.00 spent</div>
+    </div>
+    <div style="text-align:right;margin-top:8px;">
+      <span style="font-size:12px;color:var(--text-light);">Annual estimate: </span>
+      <span style="font-size:14px;font-weight:700;color:var(--navy);" id="budgetAnnual">$67,860.00</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     PAGE 3: TRANSACTIONS
+     ════════════════════════════════════════════════════ -->
+<div class="page" id="page-transactions">
+<div class="container">
+
+  <!-- Entry Form -->
+  <div class="card">
+    <div class="card-title"><div class="icon">+</div> New Expense</div>
+    <form id="expenseForm" novalidate="">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Your First Name <span class="req">*</span></label>
+          <input type="text" id="firstName" placeholder="e.g. Sarah" required="" autocomplete="given-name">
+        </div>
+        <div class="form-group">
+          <label>Date <span class="req">*</span></label>
+          <input type="date" id="expDate" required="">
+        </div>
+        <div class="form-group">
+          <label>Category <span class="req">*</span></label>
+          <select id="category" required="">
+            <option value="">Select a category…</option>
+            <option value="Assisted living monthly">Assisted living monthly</option>
+            <option value="Medical">Medical</option>
+            <option value="Phone">Phone</option>
+            <option value="Personal &amp; Daily Living">Personal &amp; Daily Living</option>
+            <option value="Legal">Legal</option>
+            <option value="Transportation">Transportation</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Amount ($) <span class="req">*</span></label>
+          <input type="number" id="amount" placeholder="0.00" min="0" step="0.01" required="">
+        </div>
+        <div class="form-group full">
+          <label>Description</label>
+          <textarea id="description" placeholder="What was this expense for?"></textarea>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button type="button" class="btn btn-secondary" onclick="resetForm()">Clear</button>
+        <button type="submit" class="btn btn-primary" id="submitBtn">Add Expense</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Expense Log -->
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;">
+      <div class="card-title" style="margin-bottom:0;"><div class="icon">📋</div> Expense Log</div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-size:12px;color:var(--text-light);" id="entryCount">0 entries</span>
+        <button class="btn-export" onclick="refreshData()">Refresh</button>
+        <button class="btn-export" onclick="exportCSV()">Export CSV</button>
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <button class="filter-btn active" data-filter="All" onclick="setFilter(this)">All</button>
+      <button class="filter-btn" data-filter="Assisted living monthly" onclick="setFilter(this)">Housing</button>
+      <button class="filter-btn" data-filter="Medical" onclick="setFilter(this)">Medical</button>
+      <button class="filter-btn" data-filter="Phone" onclick="setFilter(this)">Phone</button>
+      <button class="filter-btn" data-filter="Personal &amp; Daily Living" onclick="setFilter(this)">Personal</button>
+      <button class="filter-btn" data-filter="Legal" onclick="setFilter(this)">Legal</button>
+      <button class="filter-btn" data-filter="Transportation" onclick="setFilter(this)">Transport</button>
+      <button class="filter-btn" data-filter="Other" onclick="setFilter(this)">Other</button>
+    </div>
+
+    <div class="table-wrap">
+      <table class="txn-table">
+        <thead><tr>
+          <th>Date</th><th>Name</th><th>Category</th><th>Description</th><th style="text-align:right;">Amount</th><th></th>
+        </tr></thead>
+        <tbody id="logBody"></tbody>
+      </table>
+    </div>
+    <div class="empty-state" id="emptyState" style="display: block;">
+      <div class="icon">📝</div>
+      <p>No expenses logged yet.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+let expenses = [];
+let activeFilter = 'All';
+let API_URL = localStorage.getItem('familyCareApiUrl') || '';
+
+// Budget categories with defaults
+const BUDGET_SECTIONS = [
+  { section: 'Housing & Facility', items: [
+    { key: 'Assisted living monthly', label: 'Assisted living monthly fee', default: 4500 },
+    { key: 'room_upgrade', label: 'Room upgrades / private room', default: 0 },
+    { key: 'movein_fee', label: 'Move-in / community fee (amortized)', default: 0 },
+  ]},
+  { section: 'Medical & Care', items: [
+    { key: 'Medical', label: 'Hospice co-pays / supplemental', default: 200 },
+    { key: 'medications', label: 'Medications & pharmacy', default: 300 },
+    { key: 'equipment', label: 'Medical equipment / supplies', default: 100 },
+    { key: 'aide', label: 'In-home aide / extra care hours', default: 0 },
+  ]},
+  { section: 'Personal & Daily Living', items: [
+    { key: 'clothing', label: 'Clothing & personal items', default: 75 },
+    { key: 'toiletries', label: 'Toiletries & grooming', default: 50 },
+    { key: 'Phone', label: 'Phone / TV / internet', default: 80 },
+  ]},
+  { section: 'Insurance & Legal', items: [
+    { key: 'ltc_insurance', label: 'Long-term care insurance', default: 0 },
+    { key: 'supp_insurance', label: 'Supplemental health insurance', default: 0 },
+    { key: 'Legal', label: 'Legal / POA / estate fees (amortized)', default: 0 },
+  ]},
+  { section: 'Transportation & Misc', items: [
+    { key: 'Transportation', label: 'Transportation to appointments', default: 100 },
+    { key: 'meals_out', label: 'Meals / dining out with family', default: 50 },
+    { key: 'Other', label: 'Miscellaneous / emergency fund', default: 200 },
+  ]},
+];
+
+// Category mapping: transaction category -> budget keys for matching
+const CAT_TO_BUDGET = {
+  'Assisted living monthly': ['Assisted living monthly','room_upgrade','movein_fee'],
+  'Medical': ['Medical','medications','equipment','aide'],
+  'Phone': ['Phone'],
+  'Personal & Daily Living': ['clothing','toiletries'],
+  'Legal': ['ltc_insurance','supp_insurance','Legal'],
+  'Transportation': ['Transportation','meals_out'],
+  'Other': ['Other'],
+};
+
+// Siblings: [{name, pct}]
+let siblings = JSON.parse(localStorage.getItem('familyCareSiblings') || '[]');
+if (siblings.length === 0) {
+  siblings = [
+    { name: 'Sibling 1', pct: 30 },
+    { name: 'Sibling 2', pct: 25 },
+    { name: 'Sibling 3', pct: 25 },
+    { name: 'Sibling 4', pct: 20 },
+  ];
+  saveSiblings();
+}
+
+function saveSiblings() { localStorage.setItem('familyCareSiblings', JSON.stringify(siblings)); }
+
+// Budget amounts
+let budgetAmounts = JSON.parse(localStorage.getItem('familyCareBudget') || '{}');
+function getBudget(key, def) { return budgetAmounts[key] !== undefined ? budgetAmounts[key] : def; }
+function saveBudget() { localStorage.setItem('familyCareBudget', JSON.stringify(budgetAmounts)); }
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+document.getElementById('expDate').valueAsDate = new Date();
+const savedName = localStorage.getItem('familyCareName');
+if (savedName) document.getElementById('firstName').value = savedName;
+
+checkSetup();
+buildBudgetPage();
+
+// ═══════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════
+function showPage(id, tab) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  if (tab) tab.classList.add('active');
+  renderAll();
+}
+
+// ═══════════════════════════════════════════
+// SETUP / API
+// ═══════════════════════════════════════════
+function checkSetup() {
+  const banner = document.getElementById('setupBanner');
+  const statusEl = document.getElementById('syncStatus');
+  if (!API_URL) {
+    banner.style.display = 'block';
+    statusEl.textContent = 'Not connected';
+    statusEl.className = 'sync-status sync-offline';
+    expenses = JSON.parse(localStorage.getItem('familyCareExpenses') || '[]');
+    renderAll();
+  } else {
+    banner.style.display = 'none';
+    statusEl.textContent = 'Syncing...';
+    statusEl.className = 'sync-status sync-syncing';
+    refreshData();
+  }
+}
+
+function saveApiUrl() {
+  const url = document.getElementById('apiUrlInput').value.trim();
+  if (!url || !url.startsWith('https://script.google.com/')) {
+    showToast('Please paste a valid Google Apps Script URL', true);
+    return;
+  }
+  API_URL = url;
+  localStorage.setItem('familyCareApiUrl', url);
+  checkSetup();
+}
+
+// ═══════════════════════════════════════════
+// DATA: FETCH
+// ═══════════════════════════════════════════
+async function refreshData() {
+  if (!API_URL) return;
+  const s = document.getElementById('syncStatus');
+  s.textContent = 'Syncing...'; s.className = 'sync-status sync-syncing';
+  try {
+    const res = await fetch(API_URL);
+    const json = await res.json();
+    if (json.status === 'ok') {
+      expenses = json.data.map(r => ({
+        id: r.ID, date: r.Date, firstName: r.Name,
+        category: r.Category, description: r.Description || '',
+        amount: parseFloat(r.Amount) || 0
+      })).sort((a, b) => b.date > a.date ? 1 : b.date < a.date ? -1 : b.id - a.id);
+      localStorage.setItem('familyCareExpenses', JSON.stringify(expenses));
+      s.textContent = 'Connected'; s.className = 'sync-status sync-online';
+    } else { throw new Error(); }
+  } catch (err) {
+    s.textContent = 'Sync error'; s.className = 'sync-status sync-offline';
+    expenses = JSON.parse(localStorage.getItem('familyCareExpenses') || '[]');
+    showToast('Could not reach Google Sheets — showing cached data', true);
+  }
+  renderAll();
+}
+
+// ═══════════════════════════════════════════
+// DATA: ADD / DELETE
+// ═══════════════════════════════════════════
+async function addExpense(entry) {
+  expenses.unshift(entry);
+  localStorage.setItem('familyCareExpenses', JSON.stringify(expenses));
+  renderAll();
+  if (!API_URL) { showToast(`$${entry.amount.toFixed(2)} saved locally`); return; }
+  const s = document.getElementById('syncStatus');
+  s.textContent = 'Saving...'; s.className = 'sync-status sync-syncing';
+  try {
+    const res = await fetch(API_URL, { method:'POST', headers:{'Content-Type':'text/plain'}, body:JSON.stringify(entry) });
+    const json = await res.json();
+    if (json.status==='ok') { s.textContent='Connected'; s.className='sync-status sync-online'; showToast(`$${entry.amount.toFixed(2)} added by ${entry.firstName}`); }
+    else throw new Error();
+  } catch { s.textContent='Sync error'; s.className='sync-status sync-offline'; showToast('Saved locally, sync on refresh',true); }
+}
+
+async function deleteEntry(id) {
+  if (!confirm('Remove this expense?')) return;
+  expenses = expenses.filter(e => e.id !== id);
+  localStorage.setItem('familyCareExpenses', JSON.stringify(expenses));
+  renderAll();
+  if (API_URL) {
+    try { await fetch(API_URL, { method:'POST', headers:{'Content-Type':'text/plain'}, body:JSON.stringify({action:'delete',id}) }); } catch {}
+  }
+}
+
+// ═══════════════════════════════════════════
+// FORM
+// ═══════════════════════════════════════════
+document.getElementById('expenseForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  const fn = document.getElementById('firstName').value.trim();
+  const dt = document.getElementById('expDate').value;
+  const cat = document.getElementById('category').value;
+  const amt = parseFloat(document.getElementById('amount').value);
+  const desc = document.getElementById('description').value.trim();
+
+  let ok = true;
+  ['firstName','expDate','category','amount'].forEach(id => document.getElementById(id).classList.remove('error'));
+  if (!fn) { document.getElementById('firstName').classList.add('error'); ok=false; }
+  if (!dt) { document.getElementById('expDate').classList.add('error'); ok=false; }
+  if (!cat) { document.getElementById('category').classList.add('error'); ok=false; }
+  if (!amt||amt<=0) { document.getElementById('amount').classList.add('error'); ok=false; }
+  if (!ok) return;
+
+  btn.disabled=true; btn.innerHTML='<span class="spinner"></span>Saving...';
+  await addExpense({ id:Date.now(), firstName:fn, date:dt, category:cat, amount:amt, description:desc });
+  localStorage.setItem('familyCareName', fn);
+  document.getElementById('amount').value='';
+  document.getElementById('description').value='';
+  document.getElementById('category').value='';
+  btn.disabled=false; btn.textContent='Add Expense';
+});
+
+function resetForm() {
+  document.getElementById('expenseForm').reset();
+  document.getElementById('expDate').valueAsDate = new Date();
+  const n = localStorage.getItem('familyCareName');
+  if (n) document.getElementById('firstName').value = n;
+  ['firstName','expDate','category','amount'].forEach(id => document.getElementById(id).classList.remove('error'));
+}
+
+// ═══════════════════════════════════════════
+// SIBLINGS
+// ═══════════════════════════════════════════
+function addSiblingPrompt() {
+  const name = prompt('Enter sibling\'s first name:');
+  if (!name || !name.trim()) return;
+  const pct = prompt('What percentage do they contribute? (number only, e.g. 25)');
+  const p = parseFloat(pct);
+  if (isNaN(p) || p < 0) { showToast('Invalid percentage',true); return; }
+  siblings.push({ name: name.trim(), pct: p });
+  saveSiblings(); renderAll();
+}
+
+function removeSibling(i) {
+  if (!confirm(`Remove ${siblings[i].name}?`)) return;
+  siblings.splice(i, 1);
+  saveSiblings(); renderAll();
+}
+
+function editSiblingPct(i) {
+  const p = prompt(`New percentage for ${siblings[i].name}:`, siblings[i].pct);
+  const v = parseFloat(p);
+  if (isNaN(v) || v < 0) return;
+  siblings[i].pct = v;
+  saveSiblings(); renderAll();
+}
+
+// ═══════════════════════════════════════════
+// BUDGET PAGE
+// ═══════════════════════════════════════════
+function buildBudgetPage() {
+  const container = document.getElementById('budgetRows');
+  let html = '';
+  BUDGET_SECTIONS.forEach(sec => {
+    html += `<div class="budget-section-header">${sec.section}</div>`;
+    sec.items.forEach(item => {
+      const val = getBudget(item.key, item.default);
+      html += `<div class="budget-row">
+        <div class="cat-name">${item.label}</div>
+        <input type="number" min="0" step="1" value="${val}"
+               onchange="updateBudgetItem('${item.key}', this.value)"
+               onfocus="this.select()" />
+        <div class="actual" id="actual-${item.key}">$0 spent</div>
+      </div>`;
+    });
+  });
+  container.innerHTML = html;
+}
+
+function updateBudgetItem(key, val) {
+  budgetAmounts[key] = parseFloat(val) || 0;
+  saveBudget(); renderAll();
+}
+
+function getTotalBudget() {
+  let total = 0;
+  BUDGET_SECTIONS.forEach(sec => {
+    sec.items.forEach(item => { total += getBudget(item.key, item.default); });
+  });
+  return total;
+}
+
+// ═══════════════════════════════════════════
+// RENDERING
+// ═══════════════════════════════════════════
+function renderAll() {
+  renderDashboard();
+  renderBudgetActuals();
+  renderTransactions();
+}
+
+function renderDashboard() {
+  const totalBudget = getTotalBudget();
+  const totalSpent = expenses.reduce((s,e) => s + Number(e.amount), 0);
+  const remaining = totalBudget - totalSpent;
+
+  document.getElementById('dashBudget').textContent = fmt(totalBudget);
+  document.getElementById('dashSpent').textContent = fmt(totalSpent);
+  document.getElementById('dashRemaining').textContent = fmt(remaining);
+  document.getElementById('dashTxnCount').textContent = expenses.length;
+
+  // Sibling chips
+  const chips = document.getElementById('sibChips');
+  const totalPct = siblings.reduce((s,x) => s + x.pct, 0);
+  chips.innerHTML = siblings.map((s, i) => `
+    <span style="display:inline-flex;align-items:center;gap:4px;background:var(--soft-blue);padding:3px 10px;border-radius:12px;font-size:12px;font-weight:500;">
+      ${esc(s.name)} (${s.pct}%)
+      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="editSiblingPct(${i})" title="Edit %">&#9998;</span>
+      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="removeSibling(${i})" title="Remove">&#10005;</span>
+    </span>
+  `).join('') + (totalPct !== 100 ? `<span style="color:var(--danger);font-size:12px;font-weight:600;">Total: ${totalPct}% (should be 100%)</span>` : '');
+
+  // Sibling table
+  const sibBody = document.getElementById('sibBody');
+  sibBody.innerHTML = siblings.map(s => {
+    const owed = totalBudget * (s.pct / 100);
+    const paid = expenses.filter(e => e.firstName.toLowerCase() === s.name.toLowerCase()).reduce((sum, e) => sum + Number(e.amount), 0);
+    const balance = owed - paid;
+    const pctPaid = owed > 0 ? Math.min((paid / owed) * 100, 100) : 0;
+    const barClass = pctPaid >= 100 ? 'bar-green' : pctPaid >= 50 ? 'bar-orange' : 'bar-red';
+    const statusClass = balance > 0.01 ? 'status-owes' : balance < -0.01 ? 'status-over' : 'status-settled';
+    const statusText = balance > 0.01 ? `Owes ${fmt(balance)}` : balance < -0.01 ? `Over ${fmt(-balance)}` : 'Settled';
+    return `<tr>
+      <td><strong>${esc(s.name)}</strong></td>
+      <td>${s.pct}%</td>
+      <td style="text-align:right;">${fmt(owed)}</td>
+      <td style="text-align:right;">${fmt(paid)}</td>
+      <td class="bar-cell"><div class="bar-bg"><div class="bar-fill ${barClass}" style="width:${pctPaid}%"></div></div></td>
+      <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+    </tr>`;
+  }).join('');
+
+  // Category spending
+  const catBody = document.getElementById('catBody');
+  const cats = ['Assisted living monthly','Medical','Phone','Personal & Daily Living','Legal','Transportation','Other'];
+  catBody.innerHTML = cats.map(cat => {
+    const budgetKeys = CAT_TO_BUDGET[cat] || [];
+    const budgeted = budgetKeys.reduce((s, k) => {
+      const sec = BUDGET_SECTIONS.flatMap(x => x.items).find(i => i.key === k);
+      return s + (sec ? getBudget(sec.key, sec.default) : 0);
+    }, 0);
+    const spent = expenses.filter(e => e.category === cat).reduce((s,e) => s + Number(e.amount), 0);
+    const rem = budgeted - spent;
+    return `<tr>
+      <td>${badgeFor(cat)}</td>
+      <td style="text-align:right;">${fmt(budgeted)}</td>
+      <td style="text-align:right;">${fmt(spent)}</td>
+      <td style="text-align:right;color:${rem < 0 ? 'var(--danger)' : 'inherit'};font-weight:${rem < 0 ? '700' : '400'};">${fmt(rem)}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderBudgetActuals() {
+  // Update "spent" column in budget page
+  BUDGET_SECTIONS.forEach(sec => {
+    sec.items.forEach(item => {
+      const el = document.getElementById('actual-' + item.key);
+      if (!el) return;
+      // Match expenses by category mapping
+      let spent = 0;
+      if (['Assisted living monthly','Medical','Phone','Legal','Transportation','Other'].includes(item.key)) {
+        spent = expenses.filter(e => e.category === item.key).reduce((s,e) => s + Number(e.amount), 0);
+      }
+      el.textContent = spent > 0 ? `${fmt(spent)} spent` : '$0 spent';
+    });
+  });
+  document.getElementById('budgetTotal').textContent = fmt(getTotalBudget());
+  const totalSpent = expenses.reduce((s,e) => s + Number(e.amount), 0);
+  document.getElementById('budgetTotalActual').textContent = `${fmt(totalSpent)} spent`;
+  document.getElementById('budgetAnnual').textContent = fmt(getTotalBudget() * 12);
+}
+
+function renderTransactions() {
+  const filtered = activeFilter === 'All' ? expenses : expenses.filter(e => e.category === activeFilter);
+  const tbody = document.getElementById('logBody');
+  const empty = document.getElementById('emptyState');
+  if (filtered.length === 0) {
+    tbody.innerHTML = ''; empty.style.display = 'block';
+  } else {
+    empty.style.display = 'none';
+    tbody.innerHTML = filtered.map(e => `<tr>
+      <td>${formatDate(e.date)}</td>
+      <td><strong>${esc(e.firstName)}</strong></td>
+      <td>${badgeFor(e.category)}</td>
+      <td style="white-space:normal;max-width:220px;">${esc(e.description)||'<span style="color:#bbb;">—</span>'}</td>
+      <td style="text-align:right;font-weight:600;">$${Number(e.amount).toFixed(2)}</td>
+      <td><button class="delete-btn" onclick="deleteEntry(${e.id})" title="Remove">&#10005;</button></td>
+    </tr>`).join('');
+  }
+  document.getElementById('entryCount').textContent = filtered.length + ' entr' + (filtered.length===1?'y':'ies');
+}
+
+function setFilter(btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter = btn.dataset.filter;
+  renderTransactions();
+}
+
+// ═══════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════
+function fmt(n) { return '$' + Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function formatDate(d) { if(!d)return'—'; const p=String(d).split('-'); return p.length===3?`${+p[1]}/${+p[2]}/${p[0]}`:d; }
+function esc(s) { if(!s)return''; const el=document.createElement('span'); el.textContent=s; return el.innerHTML; }
+function badgeFor(cat) {
+  const m={'Assisted living monthly':'badge-housing','Medical':'badge-medical','Phone':'badge-phone','Personal & Daily Living':'badge-personal','Legal':'badge-legal','Transportation':'badge-transport','Other':'badge-other'};
+  return `<span class="badge ${m[cat]||'badge-other'}">${esc(cat)}</span>`;
+}
+function exportCSV() {
+  if (!expenses.length) { showToast('No data'); return; }
+  const h='Date,Name,Category,Description,Amount\n';
+  const r=expenses.map(e=>`${e.date},"${e.firstName}","${e.category}","${(e.description||'').replace(/"/g,'""')}",${Number(e.amount).toFixed(2)}`).join('\n');
+  const b=new Blob([h+r],{type:'text/csv'}); const u=URL.createObjectURL(b);
+  const a=document.createElement('a'); a.href=u; a.download=`family_care_expenses_${new Date().toISOString().slice(0,10)}.csv`; a.click(); URL.revokeObjectURL(u);
+  showToast('CSV downloaded');
+}
+function showToast(msg,isErr) {
+  const t=document.getElementById('toast'); t.textContent=msg;
+  t.className='toast show'+(isErr?' error':'');
+  setTimeout(()=>t.className='toast',3000);
+}
+
+renderAll();
+</script>
+
+
+</body></html>
