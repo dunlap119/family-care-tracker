@@ -301,6 +301,10 @@ table.txn-table tr:hover td { background:var(--soft-blue); }
       <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"></path></svg>
       <span class="tab-label">Budget</span>
     </a>
+    <a class="tab" data-page="siblings" onclick="showPage(&#39;siblings&#39;, this)">
+      <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"></path></svg>
+      <span class="tab-label">Siblings</span>
+    </a>
     <a class="tab" data-page="transactions" onclick="showPage(&#39;transactions&#39;, this)">
       <svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path></svg>
       <span class="tab-label">Transactions</span>
@@ -347,78 +351,6 @@ table.txn-table tr:hover td { background:var(--soft-blue); }
       <div class="label">Transactions</div>
       <div class="value" id="dashTxnCount">0</div>
       <div class="sub">total entries</div>
-    </div>
-  </div>
-
-  <!-- Sibling Breakdown -->
-  <div class="card">
-    <div class="card-title"><div class="icon">👥</div> Sibling Contributions</div>
-    <div id="sibSetup" style="margin-bottom:14px;">
-      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
-        <span style="font-size:12px;font-weight:600;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;">Siblings:</span>
-        <div id="sibChips" style="display:flex;gap:6px;flex-wrap:wrap;">
-    <span style="display:inline-flex;align-items:center;gap:4px;background:var(--soft-blue);padding:3px 10px;border-radius:12px;font-size:12px;font-weight:500;">
-      Sibling 1 (30%)
-      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="editSiblingPct(0)" title="Edit %">✎</span>
-      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="removeSibling(0)" title="Remove">✕</span>
-    </span>
-  
-    <span style="display:inline-flex;align-items:center;gap:4px;background:var(--soft-blue);padding:3px 10px;border-radius:12px;font-size:12px;font-weight:500;">
-      Sibling 2 (25%)
-      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="editSiblingPct(1)" title="Edit %">✎</span>
-      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="removeSibling(1)" title="Remove">✕</span>
-    </span>
-  
-    <span style="display:inline-flex;align-items:center;gap:4px;background:var(--soft-blue);padding:3px 10px;border-radius:12px;font-size:12px;font-weight:500;">
-      Sibling 3 (25%)
-      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="editSiblingPct(2)" title="Edit %">✎</span>
-      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="removeSibling(2)" title="Remove">✕</span>
-    </span>
-  
-    <span style="display:inline-flex;align-items:center;gap:4px;background:var(--soft-blue);padding:3px 10px;border-radius:12px;font-size:12px;font-weight:500;">
-      Sibling 4 (20%)
-      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="editSiblingPct(3)" title="Edit %">✎</span>
-      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="removeSibling(3)" title="Remove">✕</span>
-    </span>
-  </div>
-        <button class="btn" style="padding:4px 12px;font-size:12px;background:var(--soft-blue);color:var(--navy);" onclick="addSiblingPrompt()">+ Add</button>
-      </div>
-    </div>
-    <div class="table-wrap">
-      <table class="sib-table">
-        <thead><tr>
-          <th>Sibling</th><th>Share</th><th>Owed</th><th>Paid</th><th>Progress</th><th>Status</th>
-        </tr></thead>
-        <tbody id="sibBody"><tr>
-      <td><strong>Sibling 1</strong></td>
-      <td>30%</td>
-      <td style="text-align:right;">$1,696.50</td>
-      <td style="text-align:right;">$0.00</td>
-      <td class="bar-cell"><div class="bar-bg"><div class="bar-fill bar-red" style="width:0%"></div></div></td>
-      <td><span class="status-badge status-owes">Owes $1,696.50</span></td>
-    </tr><tr>
-      <td><strong>Sibling 2</strong></td>
-      <td>25%</td>
-      <td style="text-align:right;">$1,413.75</td>
-      <td style="text-align:right;">$0.00</td>
-      <td class="bar-cell"><div class="bar-bg"><div class="bar-fill bar-red" style="width:0%"></div></div></td>
-      <td><span class="status-badge status-owes">Owes $1,413.75</span></td>
-    </tr><tr>
-      <td><strong>Sibling 3</strong></td>
-      <td>25%</td>
-      <td style="text-align:right;">$1,413.75</td>
-      <td style="text-align:right;">$0.00</td>
-      <td class="bar-cell"><div class="bar-bg"><div class="bar-fill bar-red" style="width:0%"></div></div></td>
-      <td><span class="status-badge status-owes">Owes $1,413.75</span></td>
-    </tr><tr>
-      <td><strong>Sibling 4</strong></td>
-      <td>20%</td>
-      <td style="text-align:right;">$1,131.00</td>
-      <td style="text-align:right;">$0.00</td>
-      <td class="bar-cell"><div class="bar-bg"><div class="bar-fill bar-red" style="width:0%"></div></div></td>
-      <td><span class="status-badge status-owes">Owes $1,131.00</span></td>
-    </tr></tbody>
-      </table>
     </div>
   </div>
 
@@ -485,7 +417,7 @@ table.txn-table tr:hover td { background:var(--soft-blue); }
         <input type="number" min="0" step="1" value="4500" onchange="updateBudgetItem(&#39;Assisted living monthly&#39;, this.value)" onfocus="this.select()">
         <div class="actual" id="actual-Assisted living monthly">$0 spent</div>
       </div><div class="budget-row">
-        <div class="cat-name">Guest Meals & Add-Ons</div>
+        <div class="cat-name">Room upgrades / private room</div>
         <input type="number" min="0" step="1" value="0" onchange="updateBudgetItem(&#39;room_upgrade&#39;, this.value)" onfocus="this.select()">
         <div class="actual" id="actual-room_upgrade">$0 spent</div>
       </div><div class="budget-row">
@@ -493,7 +425,7 @@ table.txn-table tr:hover td { background:var(--soft-blue); }
         <input type="number" min="0" step="1" value="0" onchange="updateBudgetItem(&#39;movein_fee&#39;, this.value)" onfocus="this.select()">
         <div class="actual" id="actual-movein_fee">$0 spent</div>
       </div><div class="budget-section-header">Medical &amp; Care</div><div class="budget-row">
-        <div class="cat-name">Co-pays / supplemental</div>
+        <div class="cat-name">Hospice co-pays / supplemental</div>
         <input type="number" min="0" step="1" value="200" onchange="updateBudgetItem(&#39;Medical&#39;, this.value)" onfocus="this.select()">
         <div class="actual" id="actual-Medical">$0 spent</div>
       </div><div class="budget-row">
@@ -559,7 +491,109 @@ table.txn-table tr:hover td { background:var(--soft-blue); }
 </div>
 
 <!-- ════════════════════════════════════════════════════
-     PAGE 3: TRANSACTIONS
+     PAGE 3: SIBLINGS
+     ════════════════════════════════════════════════════ -->
+<div class="page" id="page-siblings">
+<div class="container">
+
+  <!-- Sibling Setup -->
+  <div class="card">
+    <div class="card-title"><div class="icon">👥</div> Manage Siblings</div>
+    <p style="font-size:13px;color:var(--text-light);margin-bottom:16px;">
+      Add or edit siblings and their contribution percentages. These feed into the contribution tracking below.
+    </p>
+    <div id="sibSetup" style="margin-bottom:14px;">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;">
+        <span style="font-size:12px;font-weight:600;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;">Siblings:</span>
+        <div id="sibChips" style="display:flex;gap:6px;flex-wrap:wrap;">
+    <span style="display:inline-flex;align-items:center;gap:4px;background:var(--soft-blue);padding:3px 10px;border-radius:12px;font-size:12px;font-weight:500;">
+      Sibling 1 (30%)
+      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="editSiblingPct(0)" title="Edit %">✎</span>
+      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="removeSibling(0)" title="Remove">✕</span>
+    </span>
+  
+    <span style="display:inline-flex;align-items:center;gap:4px;background:var(--soft-blue);padding:3px 10px;border-radius:12px;font-size:12px;font-weight:500;">
+      Sibling 2 (25%)
+      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="editSiblingPct(1)" title="Edit %">✎</span>
+      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="removeSibling(1)" title="Remove">✕</span>
+    </span>
+  
+    <span style="display:inline-flex;align-items:center;gap:4px;background:var(--soft-blue);padding:3px 10px;border-radius:12px;font-size:12px;font-weight:500;">
+      Sibling 3 (25%)
+      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="editSiblingPct(2)" title="Edit %">✎</span>
+      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="removeSibling(2)" title="Remove">✕</span>
+    </span>
+  
+    <span style="display:inline-flex;align-items:center;gap:4px;background:var(--soft-blue);padding:3px 10px;border-radius:12px;font-size:12px;font-weight:500;">
+      Sibling 4 (20%)
+      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="editSiblingPct(3)" title="Edit %">✎</span>
+      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="removeSibling(3)" title="Remove">✕</span>
+    </span>
+  </div>
+        <button class="btn" style="padding:4px 12px;font-size:12px;background:var(--soft-blue);color:var(--navy);" onclick="addSiblingPrompt()">+ Add</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contribution Breakdown -->
+  <div class="card">
+    <div class="card-title"><div class="icon">📈</div> Contribution Breakdown</div>
+    <div class="table-wrap">
+      <table class="sib-table">
+        <thead><tr>
+          <th>Sibling</th><th>Share</th><th>Owed</th><th>Paid</th><th>Progress</th><th>Status</th>
+        </tr></thead>
+        <tbody id="sibBody"><tr>
+      <td><strong>Sibling 1</strong></td>
+      <td>30%</td>
+      <td style="text-align:right;">$1,696.50</td>
+      <td style="text-align:right;">$0.00</td>
+      <td class="bar-cell"><div class="bar-bg"><div class="bar-fill bar-red" style="width:0%"></div></div></td>
+      <td><span class="status-badge status-owes">Owes $1,696.50</span></td>
+    </tr><tr>
+      <td><strong>Sibling 2</strong></td>
+      <td>25%</td>
+      <td style="text-align:right;">$1,413.75</td>
+      <td style="text-align:right;">$0.00</td>
+      <td class="bar-cell"><div class="bar-bg"><div class="bar-fill bar-red" style="width:0%"></div></div></td>
+      <td><span class="status-badge status-owes">Owes $1,413.75</span></td>
+    </tr><tr>
+      <td><strong>Sibling 3</strong></td>
+      <td>25%</td>
+      <td style="text-align:right;">$1,413.75</td>
+      <td style="text-align:right;">$0.00</td>
+      <td class="bar-cell"><div class="bar-bg"><div class="bar-fill bar-red" style="width:0%"></div></div></td>
+      <td><span class="status-badge status-owes">Owes $1,413.75</span></td>
+    </tr><tr>
+      <td><strong>Sibling 4</strong></td>
+      <td>20%</td>
+      <td style="text-align:right;">$1,131.00</td>
+      <td style="text-align:right;">$0.00</td>
+      <td class="bar-cell"><div class="bar-bg"><div class="bar-fill bar-red" style="width:0%"></div></div></td>
+      <td><span class="status-badge status-owes">Owes $1,131.00</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+    <div id="sibTotalRow" style="display:flex;align-items:center;padding:12px 14px;background:var(--soft-blue);border-radius:6px;margin-top:8px;font-weight:700;font-size:13px;gap:12px;">
+    <span style="flex:1;">TOTAL</span>
+    <span>100%</span>
+    <span style="margin-left:24px;">$5,655.00</span>
+    <span style="margin-left:24px;">$0.00</span>
+    <span style="margin-left:auto;"><span class="status-badge status-owes">$5,655.00 remaining</span></span>
+  </div>
+  </div>
+
+  <!-- Per-Sibling Payment History -->
+  <div class="card">
+    <div class="card-title"><div class="icon">📋</div> Payment History by Sibling</div>
+    <div id="sibPayments"><p style="color:var(--text-light);font-size:13px;text-align:center;padding:20px;">No payments recorded yet.</p></div>
+  </div>
+
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     PAGE 4: TRANSACTIONS
      ════════════════════════════════════════════════════ -->
 <div class="page" id="page-transactions">
 <div class="container">
@@ -925,6 +959,7 @@ function getTotalBudget() {
 // ═══════════════════════════════════════════
 function renderAll() {
   renderDashboard();
+  renderSiblings();
   renderBudgetActuals();
   renderTransactions();
 }
@@ -938,37 +973,6 @@ function renderDashboard() {
   document.getElementById('dashSpent').textContent = fmt(totalSpent);
   document.getElementById('dashRemaining').textContent = fmt(remaining);
   document.getElementById('dashTxnCount').textContent = expenses.length;
-
-  // Sibling chips
-  const chips = document.getElementById('sibChips');
-  const totalPct = siblings.reduce((s,x) => s + x.pct, 0);
-  chips.innerHTML = siblings.map((s, i) => `
-    <span style="display:inline-flex;align-items:center;gap:4px;background:var(--soft-blue);padding:3px 10px;border-radius:12px;font-size:12px;font-weight:500;">
-      ${esc(s.name)} (${s.pct}%)
-      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="editSiblingPct(${i})" title="Edit %">&#9998;</span>
-      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="removeSibling(${i})" title="Remove">&#10005;</span>
-    </span>
-  `).join('') + (totalPct !== 100 ? `<span style="color:var(--danger);font-size:12px;font-weight:600;">Total: ${totalPct}% (should be 100%)</span>` : '');
-
-  // Sibling table
-  const sibBody = document.getElementById('sibBody');
-  sibBody.innerHTML = siblings.map(s => {
-    const owed = totalBudget * (s.pct / 100);
-    const paid = expenses.filter(e => e.firstName.toLowerCase() === s.name.toLowerCase()).reduce((sum, e) => sum + Number(e.amount), 0);
-    const balance = owed - paid;
-    const pctPaid = owed > 0 ? Math.min((paid / owed) * 100, 100) : 0;
-    const barClass = pctPaid >= 100 ? 'bar-green' : pctPaid >= 50 ? 'bar-orange' : 'bar-red';
-    const statusClass = balance > 0.01 ? 'status-owes' : balance < -0.01 ? 'status-over' : 'status-settled';
-    const statusText = balance > 0.01 ? `Owes ${fmt(balance)}` : balance < -0.01 ? `Over ${fmt(-balance)}` : 'Settled';
-    return `<tr>
-      <td><strong>${esc(s.name)}</strong></td>
-      <td>${s.pct}%</td>
-      <td style="text-align:right;">${fmt(owed)}</td>
-      <td style="text-align:right;">${fmt(paid)}</td>
-      <td class="bar-cell"><div class="bar-bg"><div class="bar-fill ${barClass}" style="width:${pctPaid}%"></div></div></td>
-      <td><span class="status-badge ${statusClass}">${statusText}</span></td>
-    </tr>`;
-  }).join('');
 
   // Category spending
   const catBody = document.getElementById('catBody');
@@ -987,6 +991,81 @@ function renderDashboard() {
       <td style="text-align:right;">${fmt(spent)}</td>
       <td style="text-align:right;color:${rem < 0 ? 'var(--danger)' : 'inherit'};font-weight:${rem < 0 ? '700' : '400'};">${fmt(rem)}</td>
     </tr>`;
+  }).join('');
+}
+
+function renderSiblings() {
+  const totalBudget = getTotalBudget();
+
+  // Sibling chips
+  const chips = document.getElementById('sibChips');
+  const totalPct = siblings.reduce((s,x) => s + x.pct, 0);
+  chips.innerHTML = siblings.map((s, i) => `
+    <span style="display:inline-flex;align-items:center;gap:4px;background:var(--soft-blue);padding:3px 10px;border-radius:12px;font-size:12px;font-weight:500;">
+      ${esc(s.name)} (${s.pct}%)
+      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="editSiblingPct(${i})" title="Edit %">&#9998;</span>
+      <span style="cursor:pointer;opacity:0.5;font-size:14px;" onclick="removeSibling(${i})" title="Remove">&#10005;</span>
+    </span>
+  `).join('') + (totalPct !== 100 ? `<span style="color:var(--danger);font-size:12px;font-weight:600;"> Total: ${totalPct}% (should be 100%)</span>` : '');
+
+  // Sibling contribution table
+  const sibBody = document.getElementById('sibBody');
+  let totalOwed = 0, totalPaid = 0;
+  sibBody.innerHTML = siblings.map(s => {
+    const owed = totalBudget * (s.pct / 100);
+    const paid = expenses.filter(e => e.firstName.toLowerCase() === s.name.toLowerCase()).reduce((sum, e) => sum + Number(e.amount), 0);
+    totalOwed += owed; totalPaid += paid;
+    const balance = owed - paid;
+    const pctPaid = owed > 0 ? Math.min((paid / owed) * 100, 100) : 0;
+    const barClass = pctPaid >= 100 ? 'bar-green' : pctPaid >= 50 ? 'bar-orange' : 'bar-red';
+    const statusClass = balance > 0.01 ? 'status-owes' : balance < -0.01 ? 'status-over' : 'status-settled';
+    const statusText = balance > 0.01 ? `Owes ${fmt(balance)}` : balance < -0.01 ? `Over ${fmt(-balance)}` : 'Settled';
+    return `<tr>
+      <td><strong>${esc(s.name)}</strong></td>
+      <td>${s.pct}%</td>
+      <td style="text-align:right;">${fmt(owed)}</td>
+      <td style="text-align:right;">${fmt(paid)}</td>
+      <td class="bar-cell"><div class="bar-bg"><div class="bar-fill ${barClass}" style="width:${pctPaid}%"></div></div></td>
+      <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+    </tr>`;
+  }).join('');
+
+  // Totals row
+  document.getElementById('sibTotalRow').innerHTML = `
+    <span style="flex:1;">TOTAL</span>
+    <span>${totalPct}%</span>
+    <span style="margin-left:24px;">${fmt(totalOwed)}</span>
+    <span style="margin-left:24px;">${fmt(totalPaid)}</span>
+    <span style="margin-left:auto;"><span class="status-badge ${totalOwed-totalPaid > 0.01 ? 'status-owes' : 'status-settled'}">${fmt(totalOwed-totalPaid)} remaining</span></span>
+  `;
+
+  // Per-sibling payment history
+  const paymentsDiv = document.getElementById('sibPayments');
+  if (expenses.length === 0) {
+    paymentsDiv.innerHTML = '<p style="color:var(--text-light);font-size:13px;text-align:center;padding:20px;">No payments recorded yet.</p>';
+    return;
+  }
+  paymentsDiv.innerHTML = siblings.map(s => {
+    const sibExpenses = expenses.filter(e => e.firstName.toLowerCase() === s.name.toLowerCase());
+    if (sibExpenses.length === 0) return `
+      <div style="margin-bottom:16px;">
+        <div style="font-weight:600;font-size:13px;color:var(--navy);margin-bottom:6px;">${esc(s.name)} <span style="color:var(--text-light);font-weight:400;">— no payments yet</span></div>
+      </div>`;
+    return `
+      <div style="margin-bottom:16px;">
+        <div style="font-weight:600;font-size:13px;color:var(--navy);margin-bottom:6px;">${esc(s.name)} <span style="color:var(--text-light);font-weight:400;">— ${sibExpenses.length} payment${sibExpenses.length!==1?'s':''}, ${fmt(sibExpenses.reduce((s,e)=>s+Number(e.amount),0))} total</span></div>
+        <div class="table-wrap">
+          <table class="sib-table">
+            <thead><tr><th>Date</th><th>Category</th><th>Description</th><th style="text-align:right;">Amount</th></tr></thead>
+            <tbody>${sibExpenses.map(e => `<tr>
+              <td>${formatDate(e.date)}</td>
+              <td>${badgeFor(e.category)}</td>
+              <td style="white-space:normal;max-width:220px;">${esc(e.description)||'<span style="color:#bbb;">—</span>'}</td>
+              <td style="text-align:right;font-weight:600;">$${Number(e.amount).toFixed(2)}</td>
+            </tr>`).join('')}</tbody>
+          </table>
+        </div>
+      </div>`;
   }).join('');
 }
 
