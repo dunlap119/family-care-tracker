@@ -324,7 +324,7 @@ table.txn-table tr:hover td { background:var(--soft-blue); }
   <div class="summary-grid">
     <div class="stat-card">
       <div class="label">Monthly Budget</div>
-      <div class="value" id="dashBudget">$5,655.00</div>
+      <div class="value" id="dashBudget">$9,355.00</div>
       <div class="sub">per month</div>
     </div>
     <div class="stat-card green">
@@ -334,7 +334,7 @@ table.txn-table tr:hover td { background:var(--soft-blue); }
     </div>
     <div class="stat-card orange">
       <div class="label">Remaining</div>
-      <div class="value" id="dashRemaining">$5,655.00</div>
+      <div class="value" id="dashRemaining">$9,355.00</div>
       <div class="sub">of budget</div>
     </div>
     <div class="stat-card blue">
@@ -352,9 +352,9 @@ table.txn-table tr:hover td { background:var(--soft-blue); }
         <thead><tr><th>Category</th><th style="text-align:right;">Budgeted</th><th style="text-align:right;">Spent</th><th style="text-align:right;">Remaining</th></tr></thead>
         <tbody id="catBody"><tr>
       <td><span class="badge badge-housing">Assisted living monthly</span></td>
-      <td style="text-align:right;">$4,500.00</td>
+      <td style="text-align:right;">$8,200.00</td>
       <td style="text-align:right;">$0.00</td>
-      <td style="text-align:right;color:inherit;font-weight:400;">$4,500.00</td>
+      <td style="text-align:right;color:inherit;font-weight:400;">$8,200.00</td>
     </tr><tr>
       <td><span class="badge badge-medical">Medical</span></td>
       <td style="text-align:right;">$600.00</td>
@@ -404,10 +404,10 @@ table.txn-table tr:hover td { background:var(--soft-blue); }
     </p>
     <div id="budgetRows"><div class="budget-section-header">Housing &amp; Facility</div><div class="budget-row">
         <div class="cat-name">Assisted living monthly fee</div>
-        <input type="number" min="0" step="1" value="4500" onchange="updateBudgetItem(&#39;Assisted living monthly&#39;, this.value)" onfocus="this.select()">
+        <input type="number" min="0" step="1" value="8200" onchange="updateBudgetItem(&#39;Assisted living monthly&#39;, this.value)" onfocus="this.select()">
         <div class="actual" id="actual-Assisted living monthly">$0 spent</div>
       </div><div class="budget-row">
-        <div class="cat-name">Room upgrades / private room</div>
+        <div class="cat-name">Guest Meals &amp; Add-ons</div>
         <input type="number" min="0" step="1" value="0" onchange="updateBudgetItem(&#39;room_upgrade&#39;, this.value)" onfocus="this.select()">
         <div class="actual" id="actual-room_upgrade">$0 spent</div>
       </div><div class="budget-row">
@@ -415,7 +415,7 @@ table.txn-table tr:hover td { background:var(--soft-blue); }
         <input type="number" min="0" step="1" value="0" onchange="updateBudgetItem(&#39;movein_fee&#39;, this.value)" onfocus="this.select()">
         <div class="actual" id="actual-movein_fee">$0 spent</div>
       </div><div class="budget-section-header">Medical &amp; Care</div><div class="budget-row">
-        <div class="cat-name">Hospice co-pays / supplemental</div>
+        <div class="cat-name">Co-pays &amp; Supplemental Medical</div>
         <input type="number" min="0" step="1" value="200" onchange="updateBudgetItem(&#39;Medical&#39;, this.value)" onfocus="this.select()">
         <div class="actual" id="actual-Medical">$0 spent</div>
       </div><div class="budget-row">
@@ -439,7 +439,7 @@ table.txn-table tr:hover td { background:var(--soft-blue); }
         <input type="number" min="0" step="1" value="50" onchange="updateBudgetItem(&#39;toiletries&#39;, this.value)" onfocus="this.select()">
         <div class="actual" id="actual-toiletries">$0 spent</div>
       </div><div class="budget-row">
-        <div class="cat-name">Phone / TV / internet</div>
+        <div class="cat-name">Phone</div>
         <input type="number" min="0" step="1" value="80" onchange="updateBudgetItem(&#39;Phone&#39;, this.value)" onfocus="this.select()">
         <div class="actual" id="actual-Phone">$0 spent</div>
       </div><div class="budget-section-header">Insurance &amp; Legal</div><div class="budget-row">
@@ -469,12 +469,12 @@ table.txn-table tr:hover td { background:var(--soft-blue); }
       </div></div>
     <div class="budget-total-row">
       <div class="cat-name">TOTAL MONTHLY</div>
-      <div class="amt" id="budgetTotal">$5,655.00</div>
+      <div class="amt" id="budgetTotal">$9,355.00</div>
       <div class="actual" id="budgetTotalActual">$0.00 spent</div>
     </div>
     <div style="text-align:right;margin-top:8px;">
       <span style="font-size:12px;color:var(--text-light);">Annual estimate: </span>
-      <span style="font-size:14px;font-weight:700;color:var(--navy);" id="budgetAnnual">$67,860.00</span>
+      <span style="font-size:14px;font-weight:700;color:var(--navy);" id="budgetAnnual">$112,260.00</span>
     </div>
   </div>
 </div>
@@ -536,40 +536,40 @@ table.txn-table tr:hover td { background:var(--soft-blue); }
         <tbody id="sibBody"><tr>
       <td><strong>Sibling 1</strong></td>
       <td>30%</td>
-      <td style="text-align:right;">$1,696.50</td>
+      <td style="text-align:right;">$2,806.50</td>
       <td style="text-align:right;">$0.00</td>
       <td class="bar-cell"><div class="bar-bg"><div class="bar-fill bar-red" style="width:0%"></div></div></td>
-      <td><span class="status-badge status-owes">Owes $1,696.50</span></td>
+      <td><span class="status-badge status-owes">Owes $2,806.50</span></td>
     </tr><tr>
       <td><strong>Sibling 2</strong></td>
       <td>25%</td>
-      <td style="text-align:right;">$1,413.75</td>
+      <td style="text-align:right;">$2,338.75</td>
       <td style="text-align:right;">$0.00</td>
       <td class="bar-cell"><div class="bar-bg"><div class="bar-fill bar-red" style="width:0%"></div></div></td>
-      <td><span class="status-badge status-owes">Owes $1,413.75</span></td>
+      <td><span class="status-badge status-owes">Owes $2,338.75</span></td>
     </tr><tr>
       <td><strong>Sibling 3</strong></td>
       <td>25%</td>
-      <td style="text-align:right;">$1,413.75</td>
+      <td style="text-align:right;">$2,338.75</td>
       <td style="text-align:right;">$0.00</td>
       <td class="bar-cell"><div class="bar-bg"><div class="bar-fill bar-red" style="width:0%"></div></div></td>
-      <td><span class="status-badge status-owes">Owes $1,413.75</span></td>
+      <td><span class="status-badge status-owes">Owes $2,338.75</span></td>
     </tr><tr>
       <td><strong>Sibling 4</strong></td>
       <td>20%</td>
-      <td style="text-align:right;">$1,131.00</td>
+      <td style="text-align:right;">$1,871.00</td>
       <td style="text-align:right;">$0.00</td>
       <td class="bar-cell"><div class="bar-bg"><div class="bar-fill bar-red" style="width:0%"></div></div></td>
-      <td><span class="status-badge status-owes">Owes $1,131.00</span></td>
+      <td><span class="status-badge status-owes">Owes $1,871.00</span></td>
     </tr></tbody>
       </table>
     </div>
     <div id="sibTotalRow" style="display:flex;align-items:center;padding:12px 14px;background:var(--soft-blue);border-radius:6px;margin-top:8px;font-weight:700;font-size:13px;gap:12px;">
     <span style="flex:1;">TOTAL</span>
     <span>100%</span>
-    <span style="margin-left:24px;">$5,655.00</span>
+    <span style="margin-left:24px;">$9,355.00</span>
     <span style="margin-left:24px;">$0.00</span>
-    <span style="margin-left:auto;"><span class="status-badge status-owes">$5,655.00 remaining</span></span>
+    <span style="margin-left:auto;"><span class="status-badge status-owes">$9,355.00 remaining</span></span>
   </div>
   </div>
 
@@ -683,11 +683,11 @@ let API_URL = HARDCODED_API_URL;
 const BUDGET_SECTIONS = [
   { section: 'Housing & Facility', items: [
     { key: 'Assisted living monthly', label: 'Assisted living monthly fee', default: 4500 },
-    { key: 'room_upgrade', label: 'Room upgrades / private room', default: 0 },
+    { key: 'room_upgrade', label: 'Guest Meals & Add-ons', default: 0 },
     { key: 'movein_fee', label: 'Move-in / community fee (amortized)', default: 0 },
   ]},
   { section: 'Medical & Care', items: [
-    { key: 'Medical', label: 'Hospice co-pays / supplemental', default: 200 },
+    { key: 'Medical', label: 'Co-pays & Supplemental Medical', default: 200 },
     { key: 'medications', label: 'Medications & pharmacy', default: 300 },
     { key: 'equipment', label: 'Medical equipment / supplies', default: 100 },
     { key: 'aide', label: 'In-home aide / extra care hours', default: 0 },
@@ -695,7 +695,7 @@ const BUDGET_SECTIONS = [
   { section: 'Personal & Daily Living', items: [
     { key: 'clothing', label: 'Clothing & personal items', default: 75 },
     { key: 'toiletries', label: 'Toiletries & grooming', default: 50 },
-    { key: 'Phone', label: 'Phone / TV / internet', default: 80 },
+    { key: 'Phone', label: 'Phone', default: 80 },
   ]},
   { section: 'Insurance & Legal', items: [
     { key: 'ltc_insurance', label: 'Long-term care insurance', default: 0 },
