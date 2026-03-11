@@ -311,7 +311,7 @@ table.txn-table tr:hover td { background:var(--soft-blue); }
     </a>
   </div>
   <div class="spacer"></div>
-  <span class="sync-status sync-offline" id="syncStatus">Not connected</span>
+  <span class="sync-status sync-online" id="syncStatus">Connected</span>
 </nav>
 
 <!-- ════════════════════════════════════════════════════
@@ -319,16 +319,6 @@ table.txn-table tr:hover td { background:var(--soft-blue); }
      ════════════════════════════════════════════════════ -->
 <div class="page active" id="page-dashboard">
 <div class="container">
-
-  <!-- Setup Banner -->
-  <div class="setup-banner" id="setupBanner" style="display: block;">
-    <h3>One-time setup: Connect to Google Sheets</h3>
-    <p>Paste your Google Apps Script web app URL below to sync data across all family members' devices.</p>
-    <input type="url" id="apiUrlInput" placeholder="https://script.google.com/macros/s/ABC.../exec">
-    <div class="btn-row" style="justify-content:flex-start;">
-      <button class="btn-save-url" onclick="saveApiUrl()">Save &amp; Connect</button>
-    </div>
-  </div>
 
   <!-- Summary Stats -->
   <div class="summary-grid">
@@ -686,7 +676,8 @@ table.txn-table tr:hover td { background:var(--soft-blue); }
 // ═══════════════════════════════════════════
 let expenses = [];
 let activeFilter = 'All';
-let API_URL = localStorage.getItem('familyCareApiUrl') || '';
+const HARDCODED_API_URL = 'https://script.google.com/macros/s/AKfycbzkuRvqCz5f2ZMALVhNx48Cpen-k7aiLNHIHb0bDQJhG4coNDyf3zq7hwFV9IxSnwB8VQ/exec';
+let API_URL = HARDCODED_API_URL;
 
 // Budget categories with defaults
 const BUDGET_SECTIONS = [
@@ -773,31 +764,10 @@ function showPage(id, tab) {
 // SETUP / API
 // ═══════════════════════════════════════════
 function checkSetup() {
-  const banner = document.getElementById('setupBanner');
   const statusEl = document.getElementById('syncStatus');
-  if (!API_URL) {
-    banner.style.display = 'block';
-    statusEl.textContent = 'Not connected';
-    statusEl.className = 'sync-status sync-offline';
-    expenses = JSON.parse(localStorage.getItem('familyCareExpenses') || '[]');
-    renderAll();
-  } else {
-    banner.style.display = 'none';
-    statusEl.textContent = 'Syncing...';
-    statusEl.className = 'sync-status sync-syncing';
-    refreshData();
-  }
-}
-
-function saveApiUrl() {
-  const url = document.getElementById('apiUrlInput').value.trim();
-  if (!url || !url.startsWith('https://script.google.com/')) {
-    showToast('Please paste a valid Google Apps Script URL', true);
-    return;
-  }
-  API_URL = url;
-  localStorage.setItem('familyCareApiUrl', url);
-  checkSetup();
+  statusEl.textContent = 'Syncing...';
+  statusEl.className = 'sync-status sync-syncing';
+  refreshData();
 }
 
 // ═══════════════════════════════════════════
